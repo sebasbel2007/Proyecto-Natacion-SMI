@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="./css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Entrenamiento - Club de Natación SMI</title>
+</head>
+<body>
+
+  <div id="header-placeholder"></div>
+
+  <main>
+    <div class="welcome">
+      <h1>Mi Entrenamiento</h1>
+      <p id="welcomeUser">Iniciá sesión para ver tus récords personales</p>
+    </div>
+
+    <!-- BANNER SI NO ESTÁ LOGUEADO -->
+    <div id="loginBanner" class="login-banner" style="display:none;">
+      <div class="login-banner-content">
+        <span>🔒 Iniciá sesión para guardar tus tiempos y ver tu progreso</span>
+        <button class="btn-primary" onclick="openLogin()">Iniciar Sesión</button>
+      </div>
+    </div>
+
+    <!-- AVISO HARDWARE OFFLINE -->
+    <div id="avisoCasillaOffline" class="login-banner" style="display:none; background: rgba(255,152,0,0.12); border: 1px solid #ff9800;">
+      <div class="login-banner-content">
+        <span>⚠️ Hardware en modo OFFLINE — Avisá a un supervisor para reiniciar el carril</span>
+      </div>
+    </div>
+
+    <div class="cards-grid">
+      <!-- CROL -->
+      <div class="card">
+        <div class="card-banner">
+          <img src="./img/croll.png" alt="Crol" class="banner-img">
+          <div class="banner-overlay"></div>
+          <div class="banner-text">
+            <h2>Crol</h2>
+            <span>100m • Piscina Olímpica</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="top-title"><span>🏅</span> Mis Récords</div>
+          <div class="records-list" id="records-Crol">
+            <div class="record-empty">Sin registros aún</div>
+          </div>
+          <button class="btn-anotarse" onclick="openTraining('Crol')">▶ Entrenar Crol</button>
+        </div>
+      </div>
+
+      <!-- ESPALDA -->
+      <div class="card">
+        <div class="card-banner">
+          <img src="./img/espalda.png" alt="Espalda" class="banner-img">
+          <div class="banner-overlay"></div>
+          <div class="banner-text">
+            <h2>Espalda</h2>
+            <span>100m • Piscina Olímpica</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="top-title"><span>🏅</span> Mis Récords</div>
+          <div class="records-list" id="records-Espalda">
+            <div class="record-empty">Sin registros aún</div>
+          </div>
+          <button class="btn-anotarse" onclick="openTraining('Espalda')">▶ Entrenar Espalda</button>
+        </div>
+      </div>
+
+      <!-- MARIPOSA -->
+      <div class="card">
+        <div class="card-banner">
+          <img src="./img/mariposa.png" alt="Mariposa" class="banner-img">
+          <div class="banner-overlay"></div>
+          <div class="banner-text">
+            <h2>Mariposa</h2>
+            <span>100m • Piscina Olímpica</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="top-title"><span>🏅</span> Mis Récords</div>
+          <div class="records-list" id="records-Mariposa">
+            <div class="record-empty">Sin registros aún</div>
+          </div>
+          <button class="btn-anotarse" onclick="openTraining('Mariposa')">▶ Entrenar Mariposa</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- MODAL FLUJO DE CARRIL -->
+  <div class="overlay" id="trainOverlay">
+    <div class="modal">
+      <button class="modal-close" onclick="cancelarCarril()">✕</button>
+      <div class="modal-logo">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24"><path d="M2 16c1.5 0 2.5-1 4-1s2.5 1 4 1 2.5-1 4-1 2.5 1 4 1v2c-1.5 0-2.5-1-4-1s-2.5 1-4 1-2.5-1-4-1-2.5 1-4 1zm0-4c1.5 0 2.5-1 4-1s2.5 1 4 1 2.5-1 4-1 2.5 1 4 1v2c-1.5 0-2.5-1-4-1s-2.5 1-4 1-2.5-1-4-1-2.5 1-4 1zm0-4c1.5 0 2.5-1 4-1s2.5 1 4 1 2.5-1 4-1 2.5 1 4 1v2c-1.5 0-2.5-1-4-1s-2.5 1-4 1-2.5-1-4-1-2.5 1-4 1z"/></svg>
+        </div>
+      </div>
+      <h2 id="trainModalTitulo">Buscar Carril</h2>
+      <p class="subtitle" id="trainEstiloLabel">Estilo: —</p>
+
+      <!-- PASO 1: buscando carriles -->
+      <div id="trainPasoBuscando" style="text-align:center; padding:20px 0;">
+        <div class="train-phase">🔄 Buscando carriles libres...</div>
+      </div>
+
+      <!-- PASO 2: elegir carril -->
+      <div id="trainPasoElegir" style="display:none;">
+        <div class="train-phase" style="margin-bottom:12px;">✅ Carril disponible</div>
+        <div id="trainListaCarriles" style="display:flex; flex-direction:column; gap:10px; margin:12px 0;"></div>
+      </div>
+
+      <!-- PASO 3: esperando al hardware -->
+      <div id="trainPasoEsperando" style="display:none; text-align:center; padding:20px 0;">
+        <div class="train-phase">🏊 Carril asignado — Preparate en la plataforma</div>
+        <div class="train-timer" id="trainEstadoLabel" style="font-size:1.1rem; margin-top:12px;">Esperando al Arduino...</div>
+        <button class="btn-cancel-train" style="margin-top:20px;" onclick="cancelarCarril()">Cancelar</button>
+      </div>
+
+      <!-- PASO 4: resultado final -->
+      <div id="trainPasoResultado" style="display:none; text-align:center; padding:20px 0;">
+        <div class="train-phase" id="trainResultadoLabel">🏁 ¡Carrera finalizada!</div>
+        <div class="train-timer" id="trainTiempoFinal" style="margin:16px 0;">—</div>
+        <div id="trainBadgeRecord" style="display:none; color:#ffd700; font-weight:700; font-size:1rem; margin-bottom:12px;">🏅 ¡Nuevo récord personal!</div>
+        <button class="btn-submit" onclick="cerrarResultado()">Aceptar</button>
+      </div>
+
+      <!-- PASO: modo offline -->
+      <div id="trainPasoModoLocal" style="display:none; text-align:center; padding:20px 0;">
+        <div class="train-phase" style="color:#ff9800;">⚠️ Hardware en modo OFFLINE</div>
+        <p style="color:#aaa; margin-top:8px;">El Arduino pasó a modo manual. Avisá a un supervisor para reiniciar el carril.</p>
+        <button class="btn-cancel-train" style="margin-top:16px;" onclick="cancelarCarril()">Cerrar</button>
+      </div>
+
+      <!-- PASO: sin carriles -->
+      <div id="trainPasoSinCarriles" style="display:none; text-align:center; padding:20px 0;">
+        <div class="train-phase">❌ No hay carriles libres en este momento</div>
+        <button class="btn-cancel-train" style="margin-top:16px;" onclick="cancelarCarril()">Cerrar</button>
+      </div>
+
+      <!-- PASO: salida falsa -->
+      <div id="trainPasoFalsaSalida" style="display:none; text-align:center; padding:20px 0;">
+        <div class="train-phase" style="color:#e53935;">❌ ¡SALIDA FALSA!</div>
+        <p style="color:#aaa; margin-top:8px;">Debés volver a empezar desde el principio.</p>
+        <button class="btn-cancel-train" style="margin-top:16px;" onclick="cancelarCarril()">Aceptar y cerrar</button>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="modals-placeholder"></div>
+  <div id="footer-placeholder"></div>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

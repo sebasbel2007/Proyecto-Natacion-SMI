@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="./css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel Entrenador - Club de Natación SMI</title>
+</head>
+<body>
+
+  <div id="header-placeholder"></div>
+
+  <main>
+    <div class="welcome">
+      <h1>Panel del Entrenador</h1>
+      <p id="welcomeEntrenador">Cargando...</p>
+    </div>
+
+    <!-- BANNER SI NO ESTÁ LOGUEADO -->
+    <div id="loginBannerEntrenador" class="login-banner" style="display:none;">
+      <div class="login-banner-content">
+        <span>🔒 Iniciá sesión como entrenador para acceder al panel</span>
+        <button class="btn-primary" onclick="openLogin()">Iniciar Sesión</button>
+      </div>
+    </div>
+
+    <!-- PANEL PRINCIPAL (visible solo si es entrenador) -->
+    <div id="panelEntrenador" style="display:none;">
+
+      <!-- TOOLBAR ENTRENADOR -->
+      <div class="entrenador-toolbar">
+        <div class="toolbar-left">
+          <span class="toolbar-label">👤 Alumno seleccionado:</span>
+          <select id="selectorAlumno" class="alumno-select" onchange="cambiarAlumnoActivo()">
+            <option value="">— Seleccioná un alumno —</option>
+          </select>
+        </div>
+        <div class="toolbar-right">
+          <span class="alumnos-count" id="alumnosCount">0 alumnos</span>
+          <button class="btn-agregar-alumno" onclick="openAgregarAlumno()">+ Agregar alumno</button>
+        </div>
+      </div>
+
+      <!-- TABLA DE ALUMNOS -->
+      <div id="tablaAlumnos" class="tabla-alumnos-wrap" style="display:none;">
+        <div class="tabla-header">
+          <h3>👥 Mis Alumnos</h3>
+          <button class="btn-tabla-toggle" onclick="toggleTablaAlumnos()">Ocultar lista</button>
+        </div>
+        <div class="tabla-scroll">
+          <table class="tabla-alumnos">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Acción</th>
+              </tr>
+            </thead>
+            <tbody id="tablaAlumnosCuerpo"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- CARDS DE RÉCORDS POR ESTILO -->
+      <div id="contenidoAlumno" style="display:none;">
+        <div class="alumno-header">
+          <div class="alumno-info-card">
+            <div class="alumno-avatar" id="alumnoAvatar">?</div>
+            <div style="flex:1">
+              <div class="alumno-nombre" id="alumnoNombre">—</div>
+              <div class="alumno-meta" id="alumnoMeta">Seleccioná un alumno para ver sus récords</div>
+            </div>
+            <button class="btn-tabla-toggle" onclick="toggleContenidoAlumno()">Ocultar récords</button>
+          </div>
+        </div>
+
+        <div class="cards-grid">
+          <!-- CROL -->
+          <div class="card">
+            <div class="card-banner">
+              <img src="./img/croll.png" alt="Crol" class="banner-img">
+              <div class="banner-overlay"></div>
+              <div class="banner-text"><h2>Crol</h2><span>100m • Piscina Olímpica</span></div>
+            </div>
+            <div class="card-body">
+              <div class="top-title"><span>🏅</span> Récords del Alumno</div>
+              <div class="records-list" id="coach-records-Crol">
+                <div class="record-empty">Seleccioná un alumno</div>
+              </div>
+              <button class="btn-anotarse" onclick="openTrainingCoach('Crol')">⏱️ Cronometrar Crol</button>
+            </div>
+          </div>
+
+          <!-- ESPALDA -->
+          <div class="card">
+            <div class="card-banner">
+              <img src="./img/espalda.png" alt="Espalda" class="banner-img">
+              <div class="banner-overlay"></div>
+              <div class="banner-text"><h2>Espalda</h2><span>100m • Piscina Olímpica</span></div>
+            </div>
+            <div class="card-body">
+              <div class="top-title"><span>🏅</span> Récords del Alumno</div>
+              <div class="records-list" id="coach-records-Espalda">
+                <div class="record-empty">Seleccioná un alumno</div>
+              </div>
+              <button class="btn-anotarse" onclick="openTrainingCoach('Espalda')">⏱️ Cronometrar Espalda</button>
+            </div>
+          </div>
+
+          <!-- MARIPOSA -->
+          <div class="card">
+            <div class="card-banner">
+              <img src="./img/mariposa.png" alt="Mariposa" class="banner-img">
+              <div class="banner-overlay"></div>
+              <div class="banner-text"><h2>Mariposa</h2><span>100m • Piscina Olímpica</span></div>
+            </div>
+            <div class="card-body">
+              <div class="top-title"><span>🏅</span> Récords del Alumno</div>
+              <div class="records-list" id="coach-records-Mariposa">
+                <div class="record-empty">Seleccioná un alumno</div>
+              </div>
+              <button class="btn-anotarse" onclick="openTrainingCoach('Mariposa')">⏱️ Cronometrar Mariposa</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ESTADO VACÍO: sin alumnos -->
+      <div id="sinAlumnos" style="display:none;" class="empty-state">
+        <div class="empty-icon">👥</div>
+        <h3>Todavía no tenés alumnos</h3>
+        <p>Cuando un nadador se registre y te seleccione como entrenador, aparecerá acá.</p>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- MODAL AGREGAR ALUMNO -->
+  <div class="overlay" id="agregarAlumnoOverlay">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal('agregarAlumnoOverlay')">✕</button>
+      <div class="modal-logo">
+        <div class="logo-icon">
+          <svg viewBox="0 0 24 24"><path d="M2 16c1.5 0 2.5-1 4-1s2.5 1 4 1 2.5-1 4-1 2.5 1 4 1v2c-1.5 0-2.5-1-4-1s-2.5 1-4 1-2.5-1-4-1-2.5 1-4 1zm0-4c1.5 0 2.5-1 4-1s2.5 1 4 1 2.5-1 4-1 2.5 1 4 1v2c-1.5 0-2.5-1-4-1s-2.5 1-4 1-2.5-1-4-1-2.5 1-4 1zm0-4c1.5 0 2.5-1 4-1s2.5 1 4 1 2.5-1 4-1 2.5 1 4 1v2c-1.5 0-2.5-1-4-1s-2.5 1-4 1-2.5-1-4-1-2.5 1-4 1z"/></svg>
+        </div>
+      </div>
+      <h2>Agregar Alumno</h2>
+      <p class="subtitle">Seleccioná un nadador registrado para asignarlo a tu grupo</p>
+      <div id="listaAlumnosDisponibles" style="max-height:320px; overflow-y:auto; margin: 16px 0;"></div>
+      <button class="btn-cancel-train" onclick="closeModal('agregarAlumnoOverlay')">Cerrar</button>
+    </div>
+  </div>
+
+  <!-- AVISO HARDWARE OFFLINE -->
+  <div id="avisoCasillaOfflineCoach" class="login-banner" style="display:none; background: rgba(255,152,0,0.12); border: 1px solid #ff9800; margin: 0 0 16px;">
+    <div class="login-banner-content">
+      <span>⚠️ Hardware en modo OFFLINE — Avisá a un supervisor para reiniciar el carril</span>
+    </div>
+  </div>
+
+  <!-- MODAL FLUJO DE CARRIL ENTRENADOR -->
+  <div class="overlay" id="trainCoachOverlay">
+    <div class="modal">
+      <button class="modal-close" onclick="cancelarCarrilCoach()">✕</button>
+      <h2 id="coachModalTitulo">Buscar Carril</h2>
+      <p class="subtitle" id="coachTrainEstiloLabel">Estilo: —</p>
+      <p class="subtitle" id="coachTrainAlumnoLabel" style="color:#00bcd4; font-weight:600;">Alumno: —</p>
+
+      <div id="coachPasoBuscando" style="text-align:center; padding:20px 0;">
+        <div class="train-phase">🔄 Buscando carriles libres...</div>
+      </div>
+
+      <div id="coachPasoElegir" style="display:none;">
+        <div class="train-phase" style="margin-bottom:12px;">✅ Carril disponible</div>
+        <div id="coachListaCarriles" style="display:flex; flex-direction:column; gap:10px; margin:12px 0;"></div>
+      </div>
+
+      <div id="coachPasoEsperando" style="display:none; text-align:center; padding:20px 0;">
+        <div class="train-phase">🏊 Carril asignado — Alumno en plataforma</div>
+        <div class="train-timer" id="coachEstadoLabel" style="font-size:1.1rem; margin-top:12px;">Esperando al Arduino...</div>
+        <button class="btn-cancel-train" style="margin-top:20px;" onclick="cancelarCarrilCoach()">Cancelar</button>
+      </div>
+
+      <div id="coachPasoResultado" style="display:none; text-align:center; padding:20px 0;">
+        <div class="train-phase">🏁 ¡Carrera finalizada!</div>
+        <div class="train-timer" id="coachTiempoFinal" style="margin:16px 0;">—</div>
+        <div id="coachBadgeRecord" style="display:none; color:#ffd700; font-weight:700; font-size:1rem; margin-bottom:12px;">🏅 ¡Nuevo récord personal!</div>
+        <button class="btn-submit" onclick="cerrarResultadoCoach()">Aceptar</button>
+      </div>
+
+      <div id="coachPasoSinCarriles" style="display:none; text-align:center; padding:20px 0;">
+        <div class="train-phase">❌ No hay carriles libres en este momento</div>
+        <button class="btn-cancel-train" style="margin-top:16px;" onclick="cancelarCarrilCoach()">Cerrar</button>
+      </div>
+
+      <div id="coachPasoFalsaSalida" style="display:none; text-align:center; padding:20px 0;">
+        <div class="train-phase" style="color:#e53935;">❌ ¡SALIDA FALSA!</div>
+        <p style="color:#aaa; margin-top:8px;">Debés volver a empezar desde el principio.</p>
+        <button class="btn-cancel-train" style="margin-top:16px;" onclick="cancelarCarrilCoach()">Aceptar y cerrar</button>
+      </div>
+
+      <div id="coachPasoModoLocal" style="display:none; text-align:center; padding:20px 0;">
+        <div class="train-phase" style="color:#ff9800;">⚠️ Hardware en modo OFFLINE</div>
+        <p style="color:#aaa; margin-top:8px;">Avisá a un supervisor para reiniciar el carril.</p>
+        <button class="btn-cancel-train" style="margin-top:16px;" onclick="cancelarCarrilCoach()">Cerrar</button>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="modals-placeholder"></div>
+  <div id="footer-placeholder"></div>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

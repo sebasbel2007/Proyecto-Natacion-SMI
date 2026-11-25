@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Club de Natación SMI - Alto Rendimiento</title>
+    <link rel="icon" href="data:,">
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+
+    <div id="header-placeholder"></div>
+
+    <main>
+
+        <!-- HERO -->
+        <section class="hero">
+            <div class="hero-content">
+                <span class="badge">🏅 Club de Alto Rendimiento</span>
+                <h1>Forjando<br><span class="hero-accent">Campeones</span><br>en el Agua</h1>
+                <p>El club donde la dedicación y la pasión por la natación se convierten en resultados. Abierto a todos los niveles, desde principiantes hasta competidores de élite.</p>
+                <div class="hero-btns">
+                    <button class="btn-primary" onclick="openRegister()">Unirse al Club</button>
+                    <a href="ranking.html" class="btn-secondary">Ver Rankings →</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="hero-stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-val" data-target="15">0</div>
+                        <div class="stat-label">Títulos Nacionales</div>
+                    </div>
+                    <div class="stat-card accent">
+                        <div class="stat-val" data-target="250">0</div>
+                        <div class="stat-label">Atletas Activos</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-val">25m</div>
+                        <div class="stat-label">Piscina Olímpica</div>
+                    </div>
+                    <div class="stat-card accent">
+                        <div class="stat-val" data-target="8">0</div>
+                        <div class="stat-label">Años de Historia</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- WAVE DIVIDER -->
+        <div class="wave-divider">
+            <svg viewBox="0 0 1440 80" preserveAspectRatio="none">
+                <path d="M0,40 C360,80 1080,0 1440,40 L1440,80 L0,80 Z" fill="#1a2e4a"/>
+            </svg>
+        </div>
+
+        <!-- ESTILOS DESTACADOS -->
+        <section class="estilos-section">
+            <div class="section-header reveal">
+                <span class="section-tag">Disciplinas</span>
+                <span class="section-tag">Disciplinas</span>
+                <h2>Nuestros Estilos de Natación</h2>
+                <p>Competí en las tres disciplinas más exigentes del deporte acuático</p>
+            </div>
+            <div class="estilos-grid">
+                <a href="ranking.html" class="estilo-card reveal" data-delay="0">
+                    <div class="estilo-img-wrap">
+                        <img src="./img/croll.png" alt="Crol">
+                        <div class="estilo-overlay"></div>
+                    </div>
+                    <div class="estilo-info">
+                        <h3>🌊 Crol</h3>
+                        <p>El estilo más rápido. Técnica de brazada alternada y patada continua.</p>
+                        <span class="estilo-link">Ver ranking →</span>
+                    </div>
+                </a>
+                <a href="ranking.html" class="estilo-card featured reveal" data-delay="150">
+                    <div class="estilo-img-wrap">
+                        <img src="./img/espalda.png" alt="Espalda">
+                        <div class="estilo-overlay"></div>
+                    </div>
+                    <div class="estilo-info">
+                        <h3>🔄 Espalda</h3>
+                        <p>Elegancia y potencia. El único estilo donde el atleta nada boca arriba.</p>
+                        <span class="estilo-link">Ver ranking →</span>
+                    </div>
+                </a>
+                <a href="ranking.html" class="estilo-card reveal" data-delay="300">
+                    <div class="estilo-img-wrap">
+                        <img src="./img/mariposa.png" alt="Mariposa">
+                        <div class="estilo-overlay"></div>
+                    </div>
+                    <div class="estilo-info">
+                        <h3>🦋 Mariposa</h3>
+                        <p>El más exigente. Movimiento ondulatorio sincronizado de brazos y piernas.</p>
+                        <span class="estilo-link">Ver ranking →</span>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- FEATURES -->
+        <section class="features-section">
+            <div class="section-header reveal">
+                <span class="section-tag">¿Por qué elegirnos?</span>
+                <h2>Todo lo que necesitás para nadar mejor</h2>
+            </div>
+            <div class="features-grid">
+                <div class="feature-card reveal" data-delay="0">
+                    <div class="feature-icon">🏊</div>
+                    <h3>Piscina de 25 metros</h3>
+                    <p>Instalaciones de primer nivel con agua temperada, carriles reglamentarios y sistema de filtrado de última generación.</p>
+                </div>
+                <div class="feature-card highlight reveal" data-delay="100">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Cronometraje Digital</h3>
+                    <p>Sistema SMI de medición en tiempo real. Cada décima cuenta — registramos tus tiempos con precisión milimétrica.</p>
+                </div>
+                <div class="feature-card reveal" data-delay="200">
+                    <div class="feature-icon">🏆</div>
+                    <h3>Competencias Oficiales</h3>
+                    <p>Participá en torneos locales, nacionales e internacionales representando los colores del club.</p>
+                </div>
+                <div class="feature-card reveal" data-delay="300">
+                    <div class="feature-icon">💪</div>
+                    <h3>Entrenamiento Personalizado</h3>
+                    <p>Planes de entrenamiento adaptados a tu nivel, objetivos y disponibilidad. Desde principiantes hasta competidores de élite.</p>
+                </div>
+                <div class="feature-card highlight reveal" data-delay="400">
+                    <div class="feature-icon">👥</div>
+                    <h3>Comunidad Activa</h3>
+                    <p>Más de 250 socios que comparten la pasión por el agua. Eventos, salidas y una familia que te impulsa a superarte.</p>
+                </div>
+                <div class="feature-card reveal" data-delay="500">
+                    <div class="feature-icon">📈</div>
+                    <h3>Seguimiento de Progreso</h3>
+                    <p>Historial completo de tus marcas personales. Visualizá tu evolución y superá tus propios récords cada temporada.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- TOP NADADORES PREVIEW -->
+        <section class="top-preview-section">
+            <div class="section-header light reveal">
+                <span class="section-tag-light">Rankings</span>
+                <h2>Los Mejores del Club</h2>
+                <p>Conocé a los nadadores que marcan el ritmo esta temporada</p>
+            </div>
+            <div class="cards-grid">
+
+              <div class="card reveal" data-delay="0">
+                <div class="card-banner">
+                  <img src="./img/croll.png" alt="Crol" class="banner-img">
+                  <div class="banner-overlay"></div>
+                  <div class="banner-text"><h2>Crol</h2><span>100m • Piscina Olímpica</span></div>
+                </div>
+                <div class="card-body">
+                  <div class="top-title"><span>🏆</span> Top 3 Competidores</div>
+                  <div class="records-list" id="home-ranking-Crol"><div class="record-empty">Cargando...</div></div>
+                  <a href="ranking.html" class="btn-anotarse" style="display:block;text-align:center;text-decoration:none;">Ver ranking completo</a>
+                </div>
+              </div>
+
+              <div class="card reveal" data-delay="150">
+                <div class="card-banner">
+                  <img src="./img/espalda.png" alt="Espalda" class="banner-img">
+                  <div class="banner-overlay"></div>
+                  <div class="banner-text"><h2>Espalda</h2><span>100m • Piscina Olímpica</span></div>
+                </div>
+                <div class="card-body">
+                  <div class="top-title"><span>🏆</span> Top 3 Competidores</div>
+                  <div class="records-list" id="home-ranking-Espalda"><div class="record-empty">Cargando...</div></div>
+                  <a href="ranking.html" class="btn-anotarse" style="display:block;text-align:center;text-decoration:none;">Ver ranking completo</a>
+                </div>
+              </div>
+
+              <div class="card reveal" data-delay="300">
+                <div class="card-banner">
+                  <img src="./img/mariposa.png" alt="Mariposa" class="banner-img">
+                  <div class="banner-overlay"></div>
+                  <div class="banner-text"><h2>Mariposa</h2><span>100m • Piscina Olímpica</span></div>
+                </div>
+                <div class="card-body">
+                  <div class="top-title"><span>🏆</span> Top 3 Competidores</div>
+                  <div class="records-list" id="home-ranking-Mariposa"><div class="record-empty">Cargando...</div></div>
+                  <a href="ranking.html" class="btn-anotarse" style="display:block;text-align:center;text-decoration:none;">Ver ranking completo</a>
+                </div>
+              </div>
+
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="cta-home reveal">
+            <div class="cta-content">
+                <h2>¿Listo para marcar tu próximo récord?</h2>
+                <p>Sumáte hoy al club de natación más competitivo de Buenos Aires.</p>
+                <div class="cta-btns">
+                    <button class="btn-primary" onclick="openRegister()">Crear cuenta gratis</button>
+                    <button class="btn-login" onclick="openLogin()">Ya tengo cuenta</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- MAPA -->
+        <section class="map-section">
+            <div class="section-header">
+                <span class="section-tag">Ubicación</span>
+                <h2>Dónde Estamos</h2>
+                <p>Visitanos en nuestra sede principal en Buenos Aires</p>
+            </div>
+            <div class="map-container">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3284.016!2d-58.3816!3d-34.6037!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzTCsDM2JzEzLjMiUyA1OMKwMjInNTMuOCJX!5e0!3m2!1ses!2sar!4v1234567890"
+                    width="100%" height="420" style="border:0;"
+                    allowfullscreen="" loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade">
+                </iframe>
+            </div>
+        </section>
+
+    </main>
+
+    <div id="modals-placeholder"></div>
+    <div id="footer-placeholder"></div>
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="./css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel Admin - Club de Natación SMI</title>
+</head>
+<body>
+
+  <div id="header-placeholder"></div>
+
+  <main>
+    <div class="welcome">
+      <h1>⚙️ Panel de Administración</h1>
+      <p id="welcomeAdmin">Cargando...</p>
+    </div>
+
+    <!-- BANNER SI NO ESTÁ LOGUEADO O NO ES ADMIN -->
+    <div id="loginBannerAdmin" class="login-banner" style="display:none;">
+      <div class="login-banner-content">
+        <span>🔒 Acceso restringido — Solo administradores</span>
+        <button class="btn-primary" onclick="openLogin()">Iniciar Sesión</button>
+      </div>
+    </div>
+
+    <!-- PANEL ADMIN -->
+    <div id="panelAdmin" style="display:none;">
+
+      <!-- STATS GLOBALES -->
+      <div class="admin-stats-grid">
+        <div class="admin-stat-card">
+          <div class="admin-stat-icon">👥</div>
+          <div class="admin-stat-val" id="statTotalUsuarios">—</div>
+          <div class="admin-stat-label">Usuarios totales</div>
+        </div>
+        <div class="admin-stat-card accent">
+          <div class="admin-stat-icon">🏊</div>
+          <div class="admin-stat-val" id="statTotalNadadores">—</div>
+          <div class="admin-stat-label">Nadadores</div>
+        </div>
+        <div class="admin-stat-card">
+          <div class="admin-stat-icon">📋</div>
+          <div class="admin-stat-val" id="statTotalEntrenadores">—</div>
+          <div class="admin-stat-label">Entrenadores</div>
+        </div>
+        <div class="admin-stat-card accent">
+          <div class="admin-stat-icon">🏅</div>
+          <div class="admin-stat-val" id="statTotalRecords">—</div>
+          <div class="admin-stat-label">Récords registrados</div>
+        </div>
+      </div>
+
+      <!-- TABS DE NAVEGACIÓN -->
+      <div class="admin-tabs">
+        <button class="admin-tab active" onclick="adminTab('usuarios')">👥 Usuarios</button>
+        <button class="admin-tab" onclick="adminTab('records')">🏅 Récords</button>
+      </div>
+
+      <!-- ===== TAB: USUARIOS ===== -->
+      <div id="tabUsuarios" class="admin-tab-content">
+
+        <div class="admin-section-header">
+          <h2>Gestión de Usuarios</h2>
+          <div class="admin-header-actions">
+            <input type="text" id="buscarUsuario" class="admin-search" placeholder="🔍 Buscar por nombre o email..." oninput="filtrarUsuarios()">
+            <select id="filtroRol" class="admin-filter-select" onchange="filtrarUsuarios()">
+              <option value="">Todos los roles</option>
+              <option value="nadador">Nadadores</option>
+              <option value="entrenador">Entrenadores</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Rol</th>
+                <th>Entrenador</th>
+                <th>Registro</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="tablaUsuariosCuerpo"></tbody>
+          </table>
+          <div id="usuariosVacio" class="record-empty" style="display:none; padding:32px;">No se encontraron usuarios.</div>
+        </div>
+      </div>
+
+      <!-- ===== TAB: RÉCORDS ===== -->
+      <div id="tabRecords" class="admin-tab-content" style="display:none;">
+
+        <div class="admin-section-header">
+          <h2>Gestión de Récords</h2>
+          <div class="admin-header-actions">
+            <input type="text" id="buscarRecord" class="admin-search" placeholder="🔍 Buscar por nombre..." oninput="window.cargarRecordsAdmin()">
+            <select id="filtroEstiloRecords" class="admin-filter-select" onchange="window.cargarRecordsAdmin()">
+              <option value="Crol">Crol</option>
+              <option value="Espalda">Espalda</option>
+              <option value="Mariposa">Mariposa</option>
+            </select>
+            <button class="btn-admin-add" onclick="openAddRecord()">+ Agregar récord</button>
+          </div>
+        </div>
+
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Nadador</th>
+                <th>Tiempo</th>
+                <th>Fecha</th>
+                <th>Registrado por</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody id="tablaRecordsCuerpo"></tbody>
+          </table>
+          <div id="recordsVacio" class="record-empty" style="display:none; padding:32px;">Sin récords para este estilo.</div>
+        </div>
+      </div>
+
+
+
+    </div>
+  </main>
+
+  <!-- MODAL EDITAR USUARIO -->
+  <div class="overlay" id="editUserOverlay">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal('editUserOverlay')">✕</button>
+      <div class="modal-logo"><div class="logo-icon"><svg viewBox="0 0 24 24"><path d="M2 16c1.5 0 2.5-1 4-1s2.5 1 4 1 2.5-1 4-1 2.5 1 4 1v2c-1.5 0-2.5-1-4-1s-2.5 1-4 1-2.5-1-4-1-2.5 1-4 1zm0-4c1.5 0 2.5-1 4-1s2.5 1 4 1 2.5-1 4-1 2.5 1 4 1v2c-1.5 0-2.5-1-4-1s-2.5 1-4 1-2.5-1-4-1-2.5 1-4 1zm0-4c1.5 0 2.5-1 4-1s2.5 1 4 1 2.5-1 4-1 2.5 1 4 1v2c-1.5 0-2.5-1-4-1s-2.5 1-4 1-2.5-1-4-1-2.5 1-4 1z"/></svg></div></div>
+      <h2>Editar Usuario</h2>
+      <p class="subtitle" id="editUserSubtitle">—</p>
+      <input type="hidden" id="editUserUid">
+      <div class="form-group">
+        <label>Nombre</label>
+        <div class="input-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          <input id="editUserNombre" type="text" placeholder="Nombre completo">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Rol</label>
+        <div class="input-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          <select id="editUserRol" class="input-select" onchange="toggleEditEntrenador()">
+            <option value="nadador">Nadador</option>
+            <option value="entrenador">Entrenador</option>
+            <option value="admin">Admin</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group" id="editGrupoEntrenador" style="display:none;">
+        <label>Entrenador asignado</label>
+        <div class="input-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          <select id="editUserEntrenador" class="input-select">
+            <option value="">Sin entrenador</option>
+          </select>
+        </div>
+      </div>
+      <div id="editUserError" class="form-error" style="display:none;"></div>
+      <button class="btn-submit" onclick="guardarEdicionUsuario()">Guardar cambios</button>
+      <button class="btn-cancel-train" style="margin-top:10px;" onclick="closeModal('editUserOverlay')">Cancelar</button>
+    </div>
+  </div>
+
+  <!-- MODAL AGREGAR RÉCORD MANUAL -->
+  <div class="overlay" id="addRecordOverlay">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal('addRecordOverlay')">✕</button>
+      <div class="modal-logo"><div class="logo-icon"><svg viewBox="0 0 24 24"><path d="M2 16c1.5 0 2.5-1 4-1s2.5 1 4 1 2.5-1 4-1 2.5 1 4 1v2c-1.5 0-2.5-1-4-1s-2.5 1-4 1-2.5-1-4-1-2.5 1-4 1zm0-4c1.5 0 2.5-1 4-1s2.5 1 4 1 2.5-1 4-1 2.5 1 4 1v2c-1.5 0-2.5-1-4-1s-2.5 1-4 1-2.5-1-4-1-2.5 1-4 1zm0-4c1.5 0 2.5-1 4-1s2.5 1 4 1 2.5-1 4-1 2.5 1 4 1v2c-1.5 0-2.5-1-4-1s-2.5 1-4 1-2.5-1-4-1-2.5 1-4 1z"/></svg></div></div>
+      <h2>Agregar Récord Manual</h2>
+      <p class="subtitle">Registrá un tiempo manualmente para cualquier nadador</p>
+      <div class="form-group">
+        <label>Nadador</label>
+        <div class="input-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          <select id="addRecordNadador" class="input-select"></select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Estilo</label>
+        <div class="input-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 16c1.5 0 2.5-1 4-1s2.5 1 4 1 2.5-1 4-1 2.5 1 4 1v2c-1.5 0-2.5-1-4-1s-2.5 1-4 1-2.5-1-4-1-2.5 1-4 1z"/></svg>
+          <select id="addRecordEstilo" class="input-select">
+            <option value="Crol">Crol</option>
+            <option value="Espalda">Espalda</option>
+            <option value="Mariposa">Mariposa</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Tiempo (mm:ss)</label>
+        <div class="input-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <input id="addRecordTiempo" type="text" placeholder="01:23" pattern="\d{1,2}:\d{2}">
+        </div>
+      </div>
+      <div id="addRecordError" class="form-error" style="display:none;"></div>
+      <button class="btn-submit" onclick="guardarRecordManual()">Guardar récord</button>
+      <button class="btn-cancel-train" style="margin-top:10px;" onclick="closeModal('addRecordOverlay')">Cancelar</button>
+    </div>
+  </div>
+
+  <!-- MODAL TRANSFERIR ALUMNO INDIVIDUAL -->
+  <div class="overlay" id="transferirAlumnoOverlay">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal('transferirAlumnoOverlay')">✕</button>
+      <h2>🔄 Transferir alumno</h2>
+      <p class="subtitle">Elegí el entrenador destino</p>
+      <div class="form-group" style="margin-top:16px;">
+        <div class="input-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          <select id="selectTransferirIndividual" class="input-select"></select>
+        </div>
+      </div>
+      <button class="btn-submit" onclick="confirmarTransferirAlumno()">Confirmar transferencia</button>
+      <button class="btn-cancel-train" style="margin-top:10px;" onclick="closeModal('transferirAlumnoOverlay')">Cancelar</button>
+    </div>
+  </div>
+
+  <!-- MODAL VER ALUMNOS DE ENTRENADOR -->
+  <div class="overlay" id="verAlumnosOverlay">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal('verAlumnosOverlay')">✕</button>
+      <h2>👥 Alumnos de <span id="verAlumnosNombre"></span></h2>
+      <p class="subtitle">Nadadores asignados a este entrenador</p>
+      <div id="verAlumnosContenido" style="margin-top:16px;"></div>
+      <div style="margin-top:20px;border-top:1px solid #eee;padding-top:16px;">
+        <p style="font-weight:600;margin-bottom:8px;">Transferir todos los alumnos a:</p>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <select id="selectTransferirEntrenador" class="input-select" style="flex:1;"></select>
+          <button class="btn-admin-edit" onclick="transferirTodosAlumnos()">Transferir</button>
+        </div>
+      </div>
+      <button class="btn-cancel-train" style="margin-top:16px;" onclick="closeModal('verAlumnosOverlay')">Cerrar</button>
+    </div>
+  </div>
+
+  <!-- MODAL VER RÉCORDS DE NADADOR -->
+  <div class="overlay" id="verRecordsOverlay">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal('verRecordsOverlay')">✕</button>
+      <h2>📊 Récords de <span id="verRecordsNombre"></span></h2>
+      <p class="subtitle">Mejor marca personal por disciplina</p>
+      <div id="verRecordsContenido" style="margin-top:16px;"></div>
+      <button class="btn-cancel-train" style="margin-top:16px;" onclick="closeModal('verRecordsOverlay')">Cerrar</button>
+    </div>
+  </div>
+
+  <!-- MODAL EDITAR RÉCORD -->
+  <div class="overlay" id="editRecordOverlay">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal('editRecordOverlay')">✕</button>
+      <h2>✏️ Editar Récord</h2>
+      <p class="subtitle" id="editRecordSubtitle"></p>
+      <input type="hidden" id="editRecordId">
+      <div class="form-group">
+        <label>Tiempo (mm:ss)</label>
+        <div class="input-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <input id="editRecordTiempo" type="text" placeholder="01:23">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Fecha</label>
+        <div class="input-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <input id="editRecordFecha" type="date">
+        </div>
+      </div>
+      <div id="editRecordError" class="form-error" style="display:none;"></div>
+      <button class="btn-submit" onclick="guardarEdicionRecord()">Guardar cambios</button>
+      <button class="btn-cancel-train" style="margin-top:10px;" onclick="closeModal('editRecordOverlay')">Cancelar</button>
+    </div>
+  </div>
+
+  <div id="modals-placeholder"></div>
+  <div id="footer-placeholder"></div>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

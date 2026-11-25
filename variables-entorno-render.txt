@@ -1,0 +1,24 @@
+# Variables de entorno para deploy en Render
+# Proyecto: Club de Natacion SMI
+# Copiar/pegar cada variable en Render -> Environment
+
+# Puerto (Render lo inyecta automaticamente; la app ya lo lee con process.env.PORT)
+PORT=10000
+# (No es obligatorio cargarlo manualmente; Render lo asigna solo.)
+
+# URL de la base de datos Realtime Database de Firebase
+FIREBASE_DATABASE_URL=https://club-de-natacion-smi-default-rtdb.firebaseio.com
+
+# Credenciales del Service Account de Firebase Admin (JSON completo en UNA sola linea)
+# Obtenerlo en Firebase Console -> Configuracion del proyecto -> Cuentas de servicio -> Generar nueva clave privada
+# Luego convertir el archivo JSON a una sola linea (sin saltos) y pegarlo como valor.
+FIREBASE_SERVICE_ACCOUNT={"type":"service_account","project_id":"club-de-natacion-smi","private_key_id":"TU_PRIVATE_KEY_ID","private_key":"-----BEGIN PRIVATE KEY-----\\nTU_PRIVATE_KEY\\n-----END PRIVATE KEY-----\\n","client_email":"firebase-adminsdk-xxxxx@club-de-natacion-smi.iam.gserviceaccount.com","client_id":"TU_CLIENT_ID","auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://oauth2.googleapis.com/token","auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs","client_x509_cert_url":"https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-xxxxx%40club-de-natacion-smi.iam.gserviceaccount.com"}
+
+# Opcional
+NODE_ENV=production
+
+# Notas:
+# - La configuracion web de Firebase (apiKey, authDomain, etc.) esta hardcodeada en js/app.js
+#   y no requiere variables de entorno en Render.
+# - Si no se define FIREBASE_SERVICE_ACCOUNT, el servidor intenta leer ./serviceAccountKey.json
+#   (util en desarrollo local).

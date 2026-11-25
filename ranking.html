@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="./css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ranking - Club de Natación SMI</title>
+</head>
+<body>
+
+  <div id="header-placeholder"></div>
+
+  <main>
+    <div class="welcome">
+      <h1>Ranking del Club</h1>
+      <p>Top 3 de los mejores nadadores por disciplina</p>
+      <p>Poné a prueba tus habilidades y entrá en el top más competitivo del país</p>
+    </div>
+
+    <div class="cards-grid">
+      <!-- CROL -->
+      <div class="card">
+        <div class="card-banner">
+          <img src="./img/croll.png" alt="Crol" class="banner-img">
+          <div class="banner-overlay"></div>
+          <div class="banner-text">
+            <h2>Crol</h2>
+            <span>100m • Piscina Olímpica</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="top-title"><span>🏆</span> Top 3 Competidores</div>
+          <div class="records-list" id="ranking-Crol"><div class="record-empty">Cargando...</div></div>
+          <button class="btn-anotarse" onclick="location.href='entrenamiento.html'">🏊 Comenzar a Entrenar</button>
+        </div>
+      </div>
+
+      <!-- ESPALDA -->
+      <div class="card">
+        <div class="card-banner">
+          <img src="./img/espalda.png" alt="Espalda" class="banner-img">
+          <div class="banner-overlay"></div>
+          <div class="banner-text">
+            <h2>Espalda</h2>
+            <span>100m • Piscina Olímpica</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="top-title"><span>🏆</span> Top 3 Competidores</div>
+          <div class="records-list" id="ranking-Espalda"><div class="record-empty">Cargando...</div></div>
+          <button class="btn-anotarse" onclick="location.href='entrenamiento.html'">🏊 Comenzar a Entrenar</button>
+        </div>
+      </div>
+
+      <!-- MARIPOSA -->
+      <div class="card">
+        <div class="card-banner">
+          <img src="./img/mariposa.png" alt="Mariposa" class="banner-img">
+          <div class="banner-overlay"></div>
+          <div class="banner-text">
+            <h2>Mariposa</h2>
+            <span>100m • Piscina Olímpica</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="top-title"><span>🏆</span> Top 3 Competidores</div>
+          <div class="records-list" id="ranking-Mariposa"><div class="record-empty">Cargando...</div></div>
+          <button class="btn-anotarse" onclick="location.href='entrenamiento.html'">🏊 Comenzar a Entrenar</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <div id="modals-placeholder"></div>
+  <div id="footer-placeholder"></div>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

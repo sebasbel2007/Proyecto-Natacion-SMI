@@ -1,0 +1,141 @@
+<!-- TRAINING MODAL -->
+<div class="overlay" id="trainOverlay">
+  <div class="modal">
+    <button class="modal-close" onclick="cancelTraining()">✕</button>
+    <div class="modal-logo">
+      <div class="logo-icon">
+        <svg viewBox="0 0 24 24"><path d="M2 16c1.5 0 2.5-1 4-1s2.5 1 4 1 2.5-1 4-1 2.5 1 4 1v2c-1.5 0-2.5-1-4-1s-2.5 1-4 1-2.5-1-4-1-2.5 1-4 1zm0-4c1.5 0 2.5-1 4-1s2.5 1 4 1 2.5-1 4-1 2.5 1 4 1v2c-1.5 0-2.5-1-4-1s-2.5 1-4 1-2.5-1-4-1-2.5 1-4 1zm0-4c1.5 0 2.5-1 4-1s2.5 1 4 1 2.5-1 4-1 2.5 1 4 1v2c-1.5 0-2.5-1-4-1s-2.5 1-4 1-2.5-1-4-1-2.5 1-4 1z"/></svg>
+      </div>
+    </div>
+    <h2>Sesión de Entrenamiento</h2>
+    <p class="subtitle" id="trainEstiloLabel">Estilo: —</p>
+    <div id="trainCounter" style="display:none; text-align:center; margin: 18px 0;">
+      <div id="trainPhaseLabel" class="train-phase">Preparando...</div>
+      <div class="train-timer" id="trainTimerDisplay">5</div>
+    </div>
+    <button id="btnStartTraining" class="btn-start-train" onclick="startTraining()">▶ START</button>
+    <button id="btnCancelTraining" class="btn-cancel-train" onclick="cancelTraining()">Cancelar</button>
+  </div>
+</div>
+
+<!-- LOGIN MODAL -->
+<div class="overlay" id="loginOverlay">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('loginOverlay')">✕</button>
+    <div class="modal-logo">
+      <div class="logo-icon">
+        <svg viewBox="0 0 24 24"><path d="M2 16c1.5 0 2.5-1 4-1s2.5 1 4 1 2.5-1 4-1 2.5 1 4 1v2c-1.5 0-2.5-1-4-1s-2.5 1-4 1-2.5-1-4-1-2.5 1-4 1zm0-4c1.5 0 2.5-1 4-1s2.5 1 4 1 2.5-1 4-1 2.5 1 4 1v2c-1.5 0-2.5-1-4-1s-2.5 1-4 1-2.5-1-4-1-2.5 1-4 1zm0-4c1.5 0 2.5-1 4-1s2.5 1 4 1 2.5-1 4-1 2.5 1 4 1v2c-1.5 0-2.5-1-4-1s-2.5 1-4 1-2.5-1-4-1-2.5 1-4 1z"/></svg>
+      </div>
+    </div>
+    <h2>Club de Natación</h2>
+    <p class="subtitle">Iniciá sesión en tu cuenta</p>
+    <form onsubmit="handleLogin(event)">
+      <div class="form-group">
+        <label for="loginEmail">Correo electrónico</label>
+        <div class="input-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
+          <input id="loginEmail" type="email" placeholder="tu@email.com" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="loginPass">Contraseña</label>
+        <div class="input-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <input id="loginPass" type="password" placeholder="••••••••" required>
+        </div>
+      </div>
+      <div class="form-row">
+        <label><input type="checkbox" id="loginRemember"> Recordarme</label>
+        <a href="#">¿Olvidaste tu contraseña?</a>
+      </div>
+      <div id="loginError" class="form-error" style="display:none"></div>
+      <button type="submit" class="btn-submit">Iniciar Sesión</button>
+    </form>
+    <div class="modal-footer">
+      ¿No tenés cuenta? <a href="#" onclick="openRegister()">Regístrate aquí</a>
+    </div>
+  </div>
+</div>
+
+<!-- REGISTER MODAL -->
+<div class="overlay" id="registerOverlay">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal('registerOverlay')">✕</button>
+    <div class="modal-logo">
+      <div class="logo-icon">
+        <svg viewBox="0 0 24 24"><path d="M2 16c1.5 0 2.5-1 4-1s2.5 1 4 1 2.5-1 4-1 2.5 1 4 1v2c-1.5 0-2.5-1-4-1s-2.5 1-4 1-2.5-1-4-1-2.5 1-4 1zm0-4c1.5 0 2.5-1 4-1s2.5 1 4 1 2.5-1 4-1 2.5 1 4 1v2c-1.5 0-2.5-1-4-1s-2.5 1-4 1-2.5-1-4-1-2.5 1-4 1zm0-4c1.5 0 2.5-1 4-1s2.5 1 4 1 2.5-1 4-1 2.5 1 4 1v2c-1.5 0-2.5-1-4-1s-2.5 1-4 1-2.5-1-4-1-2.5 1-4 1z"/></svg>
+      </div>
+    </div>
+    <h2>Crear Cuenta</h2>
+    <p class="subtitle">¡Bienvenido al Club de Natación SMI!</p>
+
+    <form onsubmit="handleRegister(event)">
+      <!-- ROL -->
+      <div class="form-group">
+        <label for="regRol">¿Cómo vas a usar la app?</label>
+        <div class="rol-selector">
+          <div class="rol-option selected" id="rolNadador" onclick="selectRol('nadador')">
+            <span class="rol-icon">🏊</span>
+            <div>
+              <div class="rol-name">Soy Nadador</div>
+              <div class="rol-desc">Registrá tus tiempos y seguí tu progreso</div>
+            </div>
+          </div>
+          <div class="rol-option" id="rolEntrenador" onclick="selectRol('entrenador')">
+            <span class="rol-icon">📋</span>
+            <div>
+              <div class="rol-name">Soy Entrenador</div>
+              <div class="rol-desc">Gestioná y cronometrá a tus alumnos</div>
+            </div>
+          </div>
+        </div>
+        <input type="hidden" id="regRol" value="nadador">
+      </div>
+
+      <!-- SELECTOR DE ENTRENADOR (solo nadadores) -->
+      <div class="form-group" id="grupoEntrenador">
+        <label for="regEntrenador">¿Tenés entrenador? <span style="color:#999;font-weight:400">(opcional)</span></label>
+        <div class="input-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          <select id="regEntrenador" class="input-select">
+            <option value="">Sin entrenador por ahora</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="regNombre">Nombre completo</label>
+        <div class="input-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          <input id="regNombre" type="text" placeholder="Juan Pérez" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="regEmail">Correo electrónico</label>
+        <div class="input-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m2 7 10 7 10-7"/></svg>
+          <input id="regEmail" type="email" placeholder="tu@email.com" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="regPass">Contraseña</label>
+        <div class="input-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <input id="regPass" type="password" placeholder="Mínimo 6 caracteres" required minlength="6">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="regPass2">Confirmar contraseña</label>
+        <div class="input-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <input id="regPass2" type="password" placeholder="Repetí tu contraseña" required>
+        </div>
+      </div>
+      <div id="regError" class="form-error" style="display:none"></div>
+      <button type="submit" class="btn-submit">Crear Cuenta</button>
+    </form>
+    <div class="modal-footer">
+      ¿Ya tenés cuenta? <a href="#" onclick="openLogin()">Iniciá sesión</a>
+    </div>
+  </div>
+</div>
